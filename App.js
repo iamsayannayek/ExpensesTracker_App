@@ -105,6 +105,12 @@ function ExpensesOverview() {
   );
 }
 
+// const MyTheme = {
+//   colors: {
+//     background: "#FFFDE1", // Your specific background color
+//   },
+// };
+
 export default function App() {
   return (
     <SafeAreaProvider>
