@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
 
-const ExpensesSummary = ({ expenses, periodName }) => {
-  const expensesSum = expenses.reduce(
+const ExpensesSummary = ({ periodName, expenses = [] }) => {
+  const expensesSum = (expenses || []).reduce(
     (sum, currExpense) => sum + currExpense.amount,
     0
   );
+
   return (
     <View style={styles.container}>
       <Text style={styles.period}>{periodName}</Text>

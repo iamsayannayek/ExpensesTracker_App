@@ -5,6 +5,10 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+
+// Navigation Components
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -17,6 +21,7 @@ import ManageExpenses from "./screens/ManageExpenses";
 import RecentExpenses from "./screens/RecentExpenses";
 import AllExpenses from "./screens/AllExpenses";
 import { GlobalStyles } from "./constants/styles";
+import IconButton from "./components/UI/IconButton";
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
@@ -26,7 +31,7 @@ function ExpensesOverview() {
 
   return (
     <BottomTab.Navigator
-      screenOptions={{
+      screenOptions={({ navigation }) => ({
         headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
         headerTintColor: "#132440",
 
@@ -46,7 +51,16 @@ function ExpensesOverview() {
 
         tabBarActiveTintColor: "white",
         tabBarInactiveTintColor: "#6b6b6cff",
-      }}
+
+        headerRight: ({ tintColor }) => (
+          <IconButton
+            icon={"add"}
+            size={24}
+            color={tintColor}
+            onPress={() => navigation.navigate("ManageExpense")}
+          />
+        ),
+      })}
     >
       <BottomTab.Screen
         name="RecentExpenses"
@@ -105,26 +119,28 @@ function ExpensesOverview() {
   );
 }
 
-// const MyTheme = {
-//   colors: {
-//     background: "#FFFDE1", // Your specific background color
-//   },
-// };
-
 export default function App() {
   return (
     <SafeAreaProvider>
       <StatusBar style="dark" />
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="ExpenseOverview"
-            component={ExpensesOverview}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="ManageExpense" component={ManageExpenses} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="ExpenseOverview"
+              component={ExpensesOverview}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="ManageExpense"
+              component={ManageExpenses}
+              options={{
+                presentation: "modal",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </SafeAreaProvider>
   );
 }

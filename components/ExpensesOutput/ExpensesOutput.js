@@ -4,75 +4,17 @@ import { View, Text, StyleSheet } from "react-native";
 import ExpensesSummary from "./ExpensesSummary";
 import ExpensesList from "./ExpensesList";
 
-//Dummy Expenses
-const DUMMY_EXPENSES = [
-  {
-    id: "e1",
-    description: "12 Bananas",
-    amount: 20.57,
-    date: new Date("2025-12-19"),
-  },
-  {
-    id: "e2",
-    description: "2 Sweaters",
-    amount: 700,
-    date: new Date("2025-12-25"),
-  },
-  {
-    id: "e3",
-    description: "Dada Boudi Briyani",
-    amount: 257.32,
-    date: new Date("2025-06-27"),
-  },
-  {
-    id: "e4",
-    description: "Phone recharge",
-    amount: 799,
-    date: new Date("2026-01-06"),
-  },
-  {
-    id: "e5",
-    description: "12 Bananas",
-    amount: 20.57,
-    date: new Date("2025-12-19"),
-  },
-  {
-    id: "e6",
-    description: "2 Sweaters",
-    amount: 700,
-    date: new Date("2025-12-25"),
-  },
-  {
-    id: "e7",
-    description: "Dada Boudi Briyani",
-    amount: 257.32,
-    date: new Date("2025-06-27"),
-  },
-  {
-    id: "e8",
-    description: "Phone recharge",
-    amount: 799,
-    date: new Date("2026-01-06"),
-  },
-  {
-    id: "e9",
-    description: "Phone recharge",
-    amount: 799,
-    date: new Date("2026-01-06"),
-  },
-  {
-    id: "e10",
-    description: "Phone recharge",
-    amount: 799,
-    date: new Date("2026-01-06"),
-  },
-];
+const ExpensesOutput = ({ expenses, expensesPeriod, fallbackText }) => {
+  let content = <Text style={styles.infoText}>{fallbackText}</Text>;
 
-const ExpensesOutput = ({ expenses, expensesPeriod }) => {
+  if (expenses.length > 0) {
+    content = <ExpensesList expenses={expenses} />;
+  }
+
   return (
     <View style={styles.container}>
-      <ExpensesSummary expenses={DUMMY_EXPENSES} periodName={expensesPeriod} />
-      <ExpensesList expenses={DUMMY_EXPENSES} />
+      <ExpensesSummary expenses={expenses} periodName={expensesPeriod} />
+      {content}
     </View>
   );
 };
@@ -86,5 +28,11 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     paddingBottom: 0,
     backgroundColor: "#FFFDE1",
+  },
+  infoText: {
+    color: "#2b1e1eff",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 32,
   },
 });
